@@ -25,6 +25,7 @@ module.exports = {
     require('daisyui'),
     require('tailwind-scrollbar')({ nocompatible: true }),
     require('flowbite/plugin'),
+    require('tailwindcss-dark-mode')(),
   ],
   variants: {
     scrollbar: ['rounded'],

@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef, useContext } from 'react'
-import { WallStreetGameContext } from '@/core/providers/games/wall-street-game.provider'
+import React, { useState, useEffect, useRef, useContext } from 'react';
+import { WallStreetGameContext } from '@/core/providers/games/wall-street-game.provider';
+import { MdDarkMode } from 'react-icons/md';
 
 type Props = {
   game: string
@@ -34,15 +35,16 @@ export default function Navbar({
   const [animationEnabled, setAnimationEnabled] = useState(true)
   const [musicEnabled, setMusicEnabled] = useState(true)
   const [audioContextAllowed, setAudioContextAllowed] = useState(true)
+  const [darkMode, setDarkMode] = useState(false);
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const dropdownRef = useRef(null)
 
-  const {soundEnabled, 
-        setSoundEnabled, 
-        soundClick, 
-        playerName
-      } = useContext(WallStreetGameContext)
+  const { soundEnabled,
+    setSoundEnabled,
+    soundClick,
+    playerName
+  } = useContext(WallStreetGameContext)
 
   const handleSoundEnabled = (event) => {
     const { checked } = event.target
@@ -80,6 +82,13 @@ export default function Navbar({
   }
 
   useEffect(() => {
+    const savedMode = localStorage.getItem('darkMode');
+    if (savedMode) {
+      setDarkMode(savedMode === 'true');
+    }
+  }, []);
+
+  useEffect(() => {
     document.addEventListener('click', handleOutsideClick)
     setTimeout(() => {
       if (window.AudioContext == false) {
@@ -96,10 +105,17 @@ export default function Navbar({
       navigator.userAgent
     )
 
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+    localStorage.setItem('darkMode', String(!darkMode));
+    soundClick();
+  };
+
   return (
     <div className="top-0 z-50 ">
       <div className="h-auto mx-auto px-5 py-2 flex items-center w-full justify-end soft-border-bottom">
         <h1 className="self-starth-auto">{getGameLogo(game)}</h1>
+
 
         <div className="flex items-center ml-auto gap-2">
           {/* {audioContextAllowed && !isMobileDevice && (
@@ -112,7 +128,7 @@ export default function Navbar({
               setShowModal(!showModal)
               soundClick()
             }}
-            className="btn btn-sm py-1 px-2 flex items-center text-gray-500 btn-warning gap-1 rounded-md capitalize text-sm font-normal"
+            className="btn btn-sm py-1 px-2 flex items-center border-0 bg-gray-500 text-white-900 btn-warning gap-1 rounded-md capitalize text-sm font-normal"
           >
             <QuestionMarkCircleIcon className="h-5 w-5" />
             <span className="hidden sm:inline">Como Jogar?</span>
@@ -127,6 +143,10 @@ export default function Navbar({
           </div>
 
           <div className="border-l h-6 border-gray-400 border-opacity-50"></div>
+          <MdDarkMode
+            size={25}
+            className={`cursor-pointer transition-transform transform-gpu hover:scale-105 ${darkMode ? 'shadow-md' : ''}`}
+            onClick={toggleDarkMode} />
 
           <div className="dropdown dropdown-end" ref={dropdownRef}>
             <button
@@ -190,7 +210,7 @@ export default function Navbar({
                     </label>
                   </div>
                 </div>
-                {/*{<div className="px-2 text-xs item">
+                <div className="px-2 text-xs item">
                   <div className="form-control">
                     <label className="label cursor-pointer">
                       <span className="label-text text-xs opacity-90">Animação</span>
@@ -201,11 +221,11 @@ export default function Navbar({
                           checked={animationEnabled}
                           className="sr-only peer"
                         />
-                      <div className="w-8 h-4 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-transparent rounded-full peer bg-black peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[0px] after:left-[0px] after:bg-gray-300 after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></div>
+                        <div className="w-8 h-4 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-transparent rounded-full peer bg-black peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[0px] after:left-[0px] after:bg-gray-300 after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></div>
+                      </label>
                     </label>
-                  </label>
+                  </div>
                 </div>
-            </div>} }*/}
 
                 <div
                   className="px-3 cursor-pointer py-3 text-sm hover:font-bold text-xs item"
@@ -230,7 +250,7 @@ export default function Navbar({
               </div>
             )}
           </div>
-          { <button
+          {<button
             className="btn btn-sm px-1 btn-ghost"
             onClick={() => {
               setShowChat(!showChat)
@@ -238,7 +258,7 @@ export default function Navbar({
             }}
           >
             <ChatBubbleLeftIcon className="w-6 h-6 bg-opacity-50" />
-          </button> }
+          </button>}
         </div>
       </div>
 
@@ -249,8 +269,8 @@ export default function Navbar({
         toggle={setShowGameLimitsModal}
       />
 
-      { <Chat show={showChat} /> }
-     {/*  {audioContextAllowed && isMobileDevice && (
+      {<Chat show={showChat} />}
+      {/*  {audioContextAllowed && isMobileDevice && (
 
         <div className="flex justify-center sm:px-9 text-red-500 font-bold text-sm sm:text-xl">
           Clique no jogo para ativar os sons

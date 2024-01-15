@@ -38,9 +38,9 @@ function Tab({ trending }: Props) {
   }
 
   return (
-    <div className="h-auto border-r border-white border-opacity-10">
+    <div className="h-auto">
 
-      <div className="flex border-b border-slate-600 p-3 justify-between hidden">
+      <div className="flex border-b border-slate-600 p-3 justify-between">
         <div className="flex items-center font-medium">
           <span className="text-sm mr-1 capitalize">Vitória</span>
           <span className="text-sm capitalize">
@@ -60,7 +60,7 @@ function Tab({ trending }: Props) {
         <span className="text-sm">R$ {sum(list)}</span>
       </div>
 
-      <div className="h-full flex-shrink-1 flex-grow basis-0  px-3 overflow-y-scroll scrollbar-w-0 min-h-[300px] max-h-[300px] scrollbar-track-gray-400 scrollbar-thumb-gray-700 scrollbar scrollbar-track-rounded scrollbar-thumb-rounded">
+      <div className="h-full flex-shrink-1 flex-grow basis-0  px-3 overflow-y-scroll scrollbar-w-0  scrollbar-track-gray-400 scrollbar-thumb-gray-700 scrollbar scrollbar-track-rounded scrollbar-thumb-rounded">
 
         <div className="flex flex-col ">
           {list.map((item, index) => {

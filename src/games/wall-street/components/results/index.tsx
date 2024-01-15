@@ -34,7 +34,8 @@ export default function Results() {
   return (
     <div className="w-full h-8 relative z-10">
       <If condition={!expand}>
-        <div className="flex items-center overflow-x-hidden gap-2 mr-10">
+
+        <div className="flex w-auto h-auto items-center overflow-x-hidden gap-2 mr-10 ">
           {results.map((result, idx) => {
             const parsed: IWallStreetResult = JSON.parse(result)
 
@@ -52,30 +53,31 @@ export default function Results() {
 
       <If condition={expand}>
         <div className="h-6"></div>
-        <div className="rounded last-odds-component w-full absolute -top-1">
-          <div className="flex items-center justify-between relative rounded-t px-2 h-10">
-            <h3 className="text-xs font-bold uppercase">
-              Histórico de Tendências
-            </h3>
-          </div>
-
-          <div className="flex flex-wrap shadow max-h-36 rounded-b p-2 gap-2 overflow-y-scroll scrollbar-w-0 scrollbar-track-gray-400 scrollbar-thumb-gray-700 scrollbar scrollbar-track-rounded scrollbar-thumb-rounded">
-            {results.map((result, idx) => {
-              const parsed: IWallStreetResult = JSON.parse(result)
-
-              return (
-                <Badge
-                  key={idx}
-                  {...parsed}
-                  multipler={result.point}
-                  showRoundInfo={showRoundInfo}
-                  // onClick={() => {soundClick()}}
-                />
-              )
-            })}
-          </div>
+        <div className="w-full h-auto rounded last-odds-component absolute -top-1"
+          style={{ width: 'calc(100% - 40px)', maxWidth: 'calc(100% - 40px)' }}>
+        <div className="flex items-center justify-between relative rounded-t px-2 h-10">
+          <h3 className="text-xs font-bold uppercase">
+            Histórico de Tendências
+          </h3>
         </div>
-      </If>
+
+        <div className="flex flex-wrap shadow max-h-36 rounded-b p-2 gap-2 overflow-y-scroll scrollbar-w-0 scrollbar-track-gray-400 scrollbar-thumb-gray-700 scrollbar scrollbar-track-rounded scrollbar-thumb-rounded">
+          {results.map((result, idx) => {
+            const parsed: IWallStreetResult = JSON.parse(result)
+
+            return (
+              <Badge
+                key={idx}
+                {...parsed}
+                multipler={result.point}
+                showRoundInfo={showRoundInfo}
+              // onClick={() => {soundClick()}}
+              />
+            )
+          })}
+        </div>
+    </div>
+      </If >
 
       <button
         className={`btn bg-slate-800 hover:bg-slate-700 border-slate-700 hover:border-slate-600 border rounded p-0 min-w-0 min-h-0 px-3 py-2 w-auto h-auto text-xs shadow-lg absolute top-0 right-1 mt-0 z-10`}
@@ -96,6 +98,6 @@ export default function Results() {
         toggle={setShowInfo}
         onClick={() => soundClick()}
       />
-    </div>
+    </div >
   )
 }
